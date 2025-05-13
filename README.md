@@ -66,7 +66,10 @@ This repository contains the P4L Assessment application built with Go and [Fiber
    \q
    ```
 
-2. **(Optional) Run migrations and seeders if available.**
+2. **Migrations**
+
+   Migration automatically run when the application starts. you can see the migration files in the `database/conn.go` directory.
+
 
 ---
 
