@@ -183,6 +183,6 @@ This repository contains the P4L Assessment application built with Go and [Fiber
 
 ### Getting Help
 
-If you encounter issues not covered here, open an issue or contact the project maintainer.
+If you encounter issues not covered here, open an issue on this Repository.
 
 ---
