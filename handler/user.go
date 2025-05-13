@@ -1,10 +1,12 @@
 package handler
 
 import (
+	"fmt"
 	"go-task/database"
 	"go-task/models"
 	"go-task/utils"
 	"log"
+	"strings"
 
 	"golang.org/x/crypto/bcrypt"
 
@@ -54,6 +56,24 @@ func RegisterUser(c *fiber.Ctx) error {
 	}
 
 	if err := database.DB.Create(&user).Error; err != nil {
+		fmt.Println("Error creating user:", err.Error())
+
+		// Check for unique constraint violation
+		if pqErr, ok := err.(interface{ Error() string }); ok {
+			errMsg := pqErr.Error()
+			if strings.Contains(errMsg, "uni_users_email") {
+				return c.Status(fiber.StatusConflict).JSON(fiber.Map{
+					"success": false,
+					"message": "Email already registered",
+				})
+			} else if strings.Contains(errMsg, "uni_users_username") {
+				return c.Status(fiber.StatusConflict).JSON(fiber.Map{
+					"success": false,
+					"message": "Username already taken",
+				})
+			}
+		}
+
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"success": false,
 			"message": "Failed to create user",

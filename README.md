@@ -1,50 +1,179 @@
-# Requirements for Product CRUD and User Control with RBAC and JWT
+# P4L Assessment Project
 
-## Product CRUD
-1. **Create Product**
-  - **POST /api/products**
-    - Create a new product.
-    - Validate required fields (e.g., name, price, description).
-    - Only accessible by users with appropriate roles (e.g., Admin).
+This repository contains the P4L Assessment application built with Go and [Fiber](https://gofiber.io/). It provides a RESTful API for user and product management, with JWT authentication and validation.
 
-2. **Read Product**
-  - **GET /api/products/{id}**
-    - Fetch product details by ID.
-  - **GET /api/products**
-    - List all products with optional filters (e.g., category, price range).
-    - Accessible by all authenticated users.
+---
 
-3. **Update Product**
-  - **PUT /api/products/{id}**
-    - Update product details by ID.
-    - Validate input fields.
-    - Only accessible by users with appropriate roles (e.g., Admin).
+## Table of Contents
 
-4. **Delete Product**
-  - **DELETE /api/products/{id}**
-    - Delete a product by ID.
-    - Only accessible by users with appropriate roles (e.g., Admin).
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Database Setup](#database-setup)
+- [Running the Application](#running-the-application)
+- [Running Tests](#running-tests)
+- [Project Structure](#project-structure)
+- [API Documentation](#api-documentation)
+- [Troubleshooting](#troubleshooting)
 
-## User Control with RBAC
-1. **Role-Based Access Control (RBAC)**
-  - Define roles (e.g., Admin, Manager, User).
-  - Assign permissions to roles for accessing specific endpoints.
+---
 
-2. **User Management**
-  - **POST /api/users**
-    - Create new users.
-  - **PUT /api/users/{id}/roles**
-    - Assign roles to users.
-  - **GET /api/users/{id}**
-    - Fetch user details and roles.
-    - Only accessible by Admin.
+## Prerequisites
 
-3. **Authentication and Authorization**
-  - Use JWT tokens for user authentication.
-  - Secure endpoints with token validation.
-  - Include role-based checks for protected routes.
+- Go (v1.16 or later)
+- PostgreSQL (v12.x or later)
+- Git
 
-4. **Token Management**
-  - **POST /api/auth/refresh**
-    - Refresh JWT tokens.
-  - Implement token expiration and revocation mechanisms.
+---
+
+## Installation
+
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/yourusername/p4l-assessment.git
+   cd p4l-assesment
+   ```
+
+2. **Install dependencies:**
+   ```sh
+   go mod download
+   ```
+
+---
+
+## Configuration
+
+1. **Environment Variables:**
+
+   Copy `.env.example` to `.env` and update the values as needed:
+   ```
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USER=postgres
+   DB_PASSWORD=yourpassword
+   DB_NAME=p4l_db
+   APP_PORT=3000
+   JWT_SECRET=your_jwt_secret
+   ```
+
+---
+
+## Database Setup
+
+1. **Create the PostgreSQL database:**
+   ```sh
+   psql -U postgres
+   CREATE DATABASE p4l_db;
+   \q
+   ```
+
+2. **(Optional) Run migrations and seeders if available.**
+
+---
+
+## Running the Application
+
+1. **Start the development server:**
+   ```sh
+   go run main.go
+   ```
+
+   The server will run on `http://localhost:3000` (or the port specified in `.env`).
+
+2. **Build and run for production:**
+   ```sh
+   go build -o main.exe main.go
+   ./main.exe
+   ```
+
+---
+
+## Running Tests
+
+1. **Set up a test database:**
+   ```sh
+   psql -U postgres
+   CREATE DATABASE p4l_test_db;
+   \q
+   ```
+
+2. **Update your `.env` for testing:**
+   ```
+   DB_NAME=p4l_test_db
+   ```
+
+3. **Run tests:**
+   ```sh
+   go test -v ./tests
+   ```
+
+---
+
+## Project Structure
+
+```
+.
+├── config/         # Environment and configuration helpers
+├── database/       # Database connection logic
+├── handler/        # HTTP handlers for admin, product, user
+├── middleware/     # Fiber middleware (e.g., JWT auth)
+├── models/         # GORM models for User, Product, etc.
+├── routes/         # API route definitions
+├── tests/          # Integration and helper tests
+├── utils/          # JWT, validation, and utility functions
+├── main.go         # Application entry point
+└── ...
+```
+
+---
+
+## API Documentation
+
+### User Endpoints
+
+- `GET /api/users` — Get all users
+- `GET /api/users/:id` — Get user by ID
+- `POST /api/users` — Create a new user
+- `PUT /api/users/:id` — Update a user
+- `DELETE /api/users/:id` — Delete a user
+
+### Product Endpoints
+
+- `GET /api/products` — Get all products
+- `GET /api/products/:id` — Get product by ID
+- `POST /api/products` — Create a new product
+- `PUT /api/products/:id` — Update a product
+- `DELETE /api/products/:id` — Delete a product
+
+### Admin Endpoints
+
+- `GET /api/admin/all-user` — Get all users (admin only)
+- `GET /api/admin/user/:id` — Get user by ID (admin only)
+- `POST /api/admin/user` — Create a new user (admin only)
+- `PATCH /api/admin/user/:id` — Update a user (admin only)
+- `DELETE /api/admin/user/:id` — Delete a user (admin only)
+
+
+
+> **Note:** Most endpoints require JWT authentication. Obtain a token via the login endpoint and include it as a cookie named `_token`.
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+- **Database Connection:**
+  Ensure PostgreSQL is running and credentials in `.env` are correct.
+
+- **Dependency Issues:**
+  Run `go mod tidy` to resolve missing dependencies.
+
+- **Port Conflicts:**
+  Change `APP_PORT` in `.env` if the default port is in use.
+
+### Getting Help
+
+If you encounter issues not covered here, open an issue or contact the project maintainer.
+
+---

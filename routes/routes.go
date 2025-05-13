@@ -14,7 +14,7 @@ func SetupRoutes(app *fiber.App) {
 	userRoutes := api.Group("/user")
 	userRoutes.Post("/register", handler.RegisterUser)
 	userRoutes.Post("/login", handler.LoginUser)
-	userRoutes.Get("/products", middleware.Protected(), handler.GetUserProducts)
+	userRoutes.Get("/products", middleware.Protected(), handler.GetUserProducts) // get product based on ownership
 
 	productRoutes := api.Group("/products")
 	productRoutes.Get("/", middleware.Protected(), handler.GetAllProducts)
@@ -23,5 +23,11 @@ func SetupRoutes(app *fiber.App) {
 	productRoutes.Patch("/:id", middleware.Protected(), handler.UpdateProduct)
 	productRoutes.Delete("/:id", middleware.Protected(), handler.DeleteProductById)
 
-	// admin RBAC Routes
+	adminRoutes := api.Group("/admin")
+	adminRoutes.Use(middleware.Protected())
+	adminRoutes.Get("/all-user", handler.GetAllUsers)
+	adminRoutes.Get("/user/:id", handler.GetUserById)
+	adminRoutes.Post("/user", handler.RegisterUser)
+	adminRoutes.Patch("/user/:id", handler.UpdateUser)
+	adminRoutes.Delete("/user/:id", handler.DeleteUser)
 }
