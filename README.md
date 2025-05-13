@@ -38,7 +38,6 @@ This repository contains the P4L Assessment application built with Go and [Fiber
    ```sh
    go mod download
    ```
-
 ---
 
 ## Configuration
@@ -79,6 +78,13 @@ This repository contains the P4L Assessment application built with Go and [Fiber
    ```
 
    The server will run on `http://localhost:3000` (or the port specified in `.env`).
+
+3. **Running in Development Mode:**
+   ```sh
+   air
+   ```
+
+   The fiber running with powered by air will automatically reload the server on file changes.
 
 2. **Build and run for production:**
    ```sh
