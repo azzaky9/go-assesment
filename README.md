@@ -138,6 +138,9 @@ This repository contains the P4L Assessment application built with Go and [Fiber
 
 ## API Documentation
 
+Postman Docs you can access Live here:
+[Postman Docs](https://documenter.getpostman.com/view/26590846/2sB2qUmja1).
+
 ### User Endpoints
 
 - `GET /api/users` — Get all users
