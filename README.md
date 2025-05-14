@@ -30,7 +30,7 @@ This repository contains the P4L Assessment application built with Go and [Fiber
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/yourusername/p4l-assessment.git
+   git clone https://github.com/azzaky9/p4l-assessment.git
    cd p4l-assesment
    ```
 
